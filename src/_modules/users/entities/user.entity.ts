@@ -22,9 +22,12 @@ export class User extends AppEntity {
   public email: string;
 
   @Column()
+  public password: string;
+
+  @Column({ default: false })
   public emailConfirmed: boolean;
 
-  @Column({ length: 50 })
+  @Column({ length: 50, nullable: true })
   public phoneNumber: string;
 
   @Column({ nullable: true })
@@ -32,9 +35,6 @@ export class User extends AppEntity {
 
   @Column({ length: 50, nullable: true })
   public refTokenId: string;
-
-  @Column({ nullable: true })
-  public agoraToken: string;
 
   @Column()
   public professionId: number;
@@ -48,7 +48,7 @@ export class User extends AppEntity {
   @OneToMany(() => Payment, (payment) => payment.user)
   public payments: Relation<Payment[]>;
 
-  @ManyToOne(() => Profession, (profession) => profession.users)
+  @ManyToOne(() => Profession, (profession) => profession.users, { cascade: true })
   public profession: Relation<Profession>;
 
   @ManyToMany(() => Skill, (skill) => skill.users)

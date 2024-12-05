@@ -15,6 +15,7 @@ import { TokensModule } from "./_modules/tokens/tokens.module";
 import { RolesModule } from "./_modules/roles/roles.module";
 import { ClaimsModule } from "./_modules/claims/claims.module";
 import { PortfoliosModule } from './_modules/portfolios/portfolios.module';
+import { AuthModule } from './_modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -28,7 +29,8 @@ import { PortfoliosModule } from './_modules/portfolios/portfolios.module';
     TokensModule,
     RolesModule,
     ClaimsModule,
-    PortfoliosModule
+    PortfoliosModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService]

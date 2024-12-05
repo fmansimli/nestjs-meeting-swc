@@ -7,6 +7,8 @@ import { Skill } from "../../skills/entities/skill.entity";
 import { Rating } from "../../ratings/entities/rating.entity";
 import { Token } from "../../tokens/entities/token.entity";
 
+import { MeetingStatus } from "../enum";
+
 @Entity()
 export class Meeting extends AppEntity {
   @Column()
@@ -24,7 +26,7 @@ export class Meeting extends AppEntity {
   @Column({ default: true })
   public isPaid: boolean;
 
-  @Column({ length: 20 })
+  @Column({ length: 20, default: MeetingStatus.CREATED })
   public status: string;
 
   @JoinTable()

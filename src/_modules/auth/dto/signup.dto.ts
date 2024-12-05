@@ -1,15 +1,15 @@
 import {
-  IsString,
-  IsNumber,
-  Min,
-  Max,
-  IsStrongPassword,
   IsEmail,
-  MinLength,
-  MaxLength
+  IsNumber,
+  IsString,
+  IsStrongPassword,
+  Max,
+  MaxLength,
+  Min,
+  MinLength
 } from "class-validator";
 
-export class CreateUserDto {
+export class SignUpDto {
   @IsString()
   @MinLength(3)
   @MaxLength(50)
@@ -25,9 +25,9 @@ export class CreateUserDto {
   @IsNumber()
   public professionId: number;
 
-  @IsStrongPassword()
-  public password: string;
-
   @IsEmail()
   public email: string;
+
+  @IsStrongPassword()
+  public password: string;
 }

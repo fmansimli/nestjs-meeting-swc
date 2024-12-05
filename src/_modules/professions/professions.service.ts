@@ -1,26 +1,52 @@
-import { Injectable } from '@nestjs/common';
-import { CreateProfessionDto } from './dto/create-profession.dto';
-import { UpdateProfessionDto } from './dto/update-profession.dto';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+
+import { Profession } from "./entities/profession.entity";
+import { CreateProfessionDto } from "./dto/create-profession.dto";
+import { UpdateProfessionDto } from "./dto/update-profession.dto";
 
 @Injectable()
 export class ProfessionsService {
-  create(createProfessionDto: CreateProfessionDto) {
-    return 'This action adds a new profession';
+  constructor(@InjectRepository(Profession) private readonly repo: Repository<Profession>) {}
+
+  async create(attrs: CreateProfessionDto) {
+    const profession = this.repo.create(attrs);
+    return this.repo.save(profession);
   }
 
-  findAll() {
-    return `This action returns all professions`;
+  async findAll() {
+    return this.repo.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} profession`;
+  async findOne(id: number) {
+    const profession = await this.repo.findOneBy({ id });
+
+    if (!profession) {
+      throw new NotFoundException("Profession not found");
+    }
+
+    return profession;
   }
 
-  update(id: number, updateProfessionDto: UpdateProfessionDto) {
-    return `This action updates a #${id} profession`;
+  async update(id: number, attrs: UpdateProfessionDto) {
+    const profession = await this.findOne(id);
+
+    if (!profession) {
+      throw new NotFoundException("Profession not found");
+    }
+
+    Object.assign(profession, attrs);
+    return this.repo.save(profession);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} profession`;
+  async remove(id: number) {
+    const profession = await this.findOne(id);
+
+    if (!profession) {
+      throw new NotFoundException("Profession not found");
+    }
+
+    return this.repo.softRemove(profession);
   }
 }
