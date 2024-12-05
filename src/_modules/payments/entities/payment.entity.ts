@@ -1,4 +1,5 @@
 import { Entity, Column, Generated, Relation, ManyToOne } from "typeorm";
+
 import { Meeting } from "../../meetings/entities/meeting.entity";
 import { User } from "../../users/entities/user.entity";
 import { AppEntity } from "../../../entities/app.entity";

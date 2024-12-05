@@ -1,9 +1,14 @@
-import { Column, Entity, ManyToMany, ManyToOne, OneToMany, Relation } from "typeorm";
+import { Column, Entity, ManyToMany, ManyToOne, OneToMany, OneToOne, Relation } from "typeorm";
+
 import { AppEntity } from "../../../entities/app.entity";
 import { Meeting } from "../../meetings/entities/meeting.entity";
 import { Payment } from "../../payments/entities/payment.entity";
 import { Profession } from "../../professions/entities/profession.entity";
 import { Skill } from "../../skills/entities/skill.entity";
+import { Rating } from "../../ratings/entities/rating.entity";
+import { Token } from "../../tokens/entities/token.entity";
+import { Role } from "../../roles/entities/role.entity";
+import { Portfolio } from "../../portfolios/entities/portfolio.entity";
 
 @Entity()
 export class User extends AppEntity {
@@ -48,4 +53,16 @@ export class User extends AppEntity {
 
   @ManyToMany(() => Skill, (skill) => skill.users)
   public skills: Relation<Skill[]>;
+
+  @OneToMany(() => Rating, (rating) => rating.user)
+  public ratings: Relation<Rating[]>;
+
+  @OneToMany(() => Token, (token) => token.user)
+  public tokens: Relation<Token[]>;
+
+  @ManyToMany(() => Role, (role) => role.users)
+  public roles: Relation<Role[]>;
+
+  @OneToOne(() => Portfolio, (portfolio) => portfolio.user, { cascade: true })
+  public portfolio: Relation<Portfolio>;
 }
